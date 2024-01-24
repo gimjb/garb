@@ -7,11 +7,11 @@ export async function create (data: IGuild): Promise<void> {
 
 /** Get a guild's joined voice channel. */
 export async function get (guildId: string): Promise<any> {
-  return Guild.findOne({ guildId })
+  return await Guild.findOne({ guildId })
 }
 
 export async function getAll (): Promise<any> {
-  return Guild.find()
+  return await Guild.find()
 }
 
 export async function remove (guildId: string): Promise<void> {

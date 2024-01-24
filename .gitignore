@@ -16,3 +16,6 @@ src/**/*.js
 src/**/*.js.map
 !src/**/*.test.js
 !src/**/test.js
+
+# Logs
+log.txt

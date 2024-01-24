@@ -11,6 +11,8 @@ read this document as it outlines the process for contributing to this project.
   - [Feature Requests](#feature-requests)
   - [Code Changes](#code-changes)
     - [Development setup](#development-setup)
+      - [Prerequisites](#prerequisites)
+      - [Setup](#setup)
     - [Branches](#branches)
     - [Testing & Linting](#testing--linting)
     - [Commit Messages](#commit-messages)

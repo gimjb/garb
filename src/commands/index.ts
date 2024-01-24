@@ -1,5 +1,6 @@
 import fs from 'fs'
 import discord from 'discord.js'
+import log from '@gimjb/log'
 import type {
   CommandLogic,
   CommandMetadata,
@@ -22,6 +23,7 @@ async function loadCommandsFromFiles (): Promise<void> {
       continue
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const command = require(`./${file}`).default
 
     commandsMetadata.push(command.meta)
@@ -32,7 +34,7 @@ async function loadCommandsFromFiles (): Promise<void> {
   }
 }
 
-loadCommandsFromFiles().catch(console.error)
+loadCommandsFromFiles().catch(log.error)
 
 /** All application commands. */
 export default {
