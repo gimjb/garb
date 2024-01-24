@@ -1,15 +1,22 @@
+import path from 'path'
 import discord from 'discord.js'
 import 'dotenv/config'
+import log from '@gimjb/log'
 import mongoose from 'mongoose'
 import commands from './commands'
 import config from './config'
 import guildsController from './controllers/guilds'
 import joinVC from './utils/joinVC'
 
+log.path = path.join(__dirname, '..', 'log.txt')
+
 mongoose
   .connect(process.env['MONGO_URI'] ?? 'mongodb://localhost:27017/garb')
-  .catch(error => {
-    console.error(error)
+  .then(async () => {
+    await log.info('Connected to MongoDB.')
+  })
+  .catch(async error => {
+    await log.error(error)
     process.exit(1)
   })
 
@@ -25,6 +32,8 @@ const client = new discord.Client({
 })
 
 client.on('ready', async readyClient => {
+  await log.info(`Logged in as ${readyClient.user?.tag ?? 'unknown'}.`)
+
   await commands.register(readyClient)
 
   for (const guild of await guildsController.getAll()) {
@@ -36,7 +45,7 @@ client.on('ready', async readyClient => {
         channel.guildId,
         channel.guild.voiceAdapterCreator
       )
-    }).catch(console.error)
+    }).catch(log.error)
   }
 })
 
@@ -47,7 +56,7 @@ client.on('guildCreate', async guild => {
 })
 
 client.on('shardDisconnect', async (closeEvent, shardId) => {
-  console.warn(`Shard ${shardId} disconnected with code ${closeEvent.code}.`)
+  await log.warn(`Shard ${shardId} disconnected with code ${closeEvent.code}.`)
 
   await client.shard?.respawnAll()
 })
@@ -58,4 +67,4 @@ client.on('interactionCreate', async interaction => {
   await commands.handle(interaction)
 })
 
-client.login(process.env['DISCORD_TOKEN']).catch(console.error)
+client.login(process.env['DISCORD_TOKEN']).catch(log.error)

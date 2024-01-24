@@ -1,4 +1,5 @@
 import type discord from 'discord.js'
+import log from '@gimjb/log'
 import * as voice from '@discordjs/voice'
 import guildsController from '../controllers/guilds'
 
@@ -7,6 +8,8 @@ const player = voice.createAudioPlayer({
     noSubscriber: voice.NoSubscriberBehavior.Pause
   }
 })
+
+player.on('error', error => { void log.error(error) })
 
 const resource = voice.createAudioResource('https://s2.radio.co/s322c133da/listen')
 player.play(resource)
