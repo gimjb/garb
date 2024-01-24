@@ -1,5 +1,6 @@
 import fs from 'fs'
 import discord from 'discord.js'
+import log from '@gimjb/log'
 import type {
   CommandLogic,
   CommandMetadata,
@@ -32,7 +33,7 @@ async function loadCommandsFromFiles (): Promise<void> {
   }
 }
 
-loadCommandsFromFiles().catch(console.error)
+loadCommandsFromFiles().catch(log.error)
 
 /** All application commands. */
 export default {
