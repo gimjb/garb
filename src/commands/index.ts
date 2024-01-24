@@ -23,6 +23,7 @@ async function loadCommandsFromFiles (): Promise<void> {
       continue
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const command = require(`./${file}`).default
 
     commandsMetadata.push(command.meta)
