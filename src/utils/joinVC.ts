@@ -5,17 +5,25 @@ import guildsController from '../controllers/guilds'
 
 const player = voice.createAudioPlayer({
   behaviors: {
-    noSubscriber: voice.NoSubscriberBehavior.Pause
+    noSubscriber: voice.NoSubscriberBehavior.Play
   }
 })
+
+function play (): void {
+  player.play(voice.createAudioResource('https://s2.radio.co/s322c133da/listen'))
+}
 
 player.on('error', error => { void log.error(error) })
 player.on('stateChange', (oldState, newState) => {
   void log.info(`Audio player transitioned from ${oldState.status} to ${newState.status}.`)
+
+  if (newState.status === voice.AudioPlayerStatus.Idle) {
+    // We lost our connection; attempt to reconnect once every five seconds.
+    setTimeout(play, 5000)
+  }
 })
 
-const resource = voice.createAudioResource('https://s2.radio.co/s322c133da/listen')
-player.play(resource)
+play()
 
 export default function joinVC (
   channelId: string,
