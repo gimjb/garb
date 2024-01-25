@@ -10,6 +10,9 @@ const player = voice.createAudioPlayer({
 })
 
 player.on('error', error => { void log.error(error) })
+player.on('stateChange', (oldState, newState) => {
+  void log.info(`Audio player transitioned from ${oldState.status} to ${newState.status}.`)
+})
 
 const resource = voice.createAudioResource('https://s2.radio.co/s322c133da/listen')
 player.play(resource)
