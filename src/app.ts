@@ -1,14 +1,15 @@
+/* eslint-disable import/first */
 import path from 'path'
 import discord from 'discord.js'
 import 'dotenv/config'
 import log from '@gimjb/log'
+log.path = path.join(__dirname, '..', 'log.txt')
 import mongoose from 'mongoose'
 import commands from './commands'
 import config from './config'
 import guildsController from './controllers/guilds'
 import joinVC from './utils/joinVC'
-
-log.path = path.join(__dirname, '..', 'log.txt')
+/* eslint-enable import/first */
 
 mongoose
   .connect(process.env['MONGO_URI'] ?? 'mongodb://localhost:27017/garb')
@@ -31,8 +32,15 @@ const client = new discord.Client({
   }
 })
 
+client.on('error', message => { void log.error(message) })
+client.on('warn', message => { void log.warn(message) })
+client.on('shardError', async (error, shardId) => {
+  await log.error(`Shard ${shardId} encountered an error:`)
+  await log.error(error)
+})
+
 client.on('ready', async readyClient => {
-  await log.info(`Logged in as ${readyClient.user?.tag ?? 'unknown'}.`)
+  void log.info(`Logged in as ${readyClient.user?.tag ?? 'unknown'}.`)
 
   await commands.register(readyClient)
 
@@ -56,7 +64,7 @@ client.on('guildCreate', async guild => {
 })
 
 client.on('shardDisconnect', async (closeEvent, shardId) => {
-  await log.warn(`Shard ${shardId} disconnected with code ${closeEvent.code}.`)
+  void log.warn(`Shard ${shardId} disconnected with code ${closeEvent.code}.`)
 
   await client.shard?.respawnAll()
 })
