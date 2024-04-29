@@ -1,5 +1,6 @@
 import * as voice from '@discordjs/voice'
 import type ApplicationCommand from './ApplicationCommand'
+import guildsController from '../controllers/guilds'
 
 const command: ApplicationCommand = {
   meta: {
@@ -30,19 +31,14 @@ const command: ApplicationCommand = {
       return
     }
 
-    if (!connection.disconnect()) {
-      await interaction.reply({
-        content: 'Failed to leave the voice channel. Please try again.',
-        ephemeral: true
-      })
-
-      return
-    }
+    connection.destroy(true)
 
     await interaction.reply({
       content: 'Left the voice channel.',
       ephemeral: true
     })
+
+    void guildsController.remove(interaction.guildId ?? '')
   }
 }
 

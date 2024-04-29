@@ -1,15 +1,11 @@
-/* eslint-disable import/first */
-import path from 'path'
 import discord from 'discord.js'
 import 'dotenv/config'
 import log from '@gimjb/log'
-log.path = path.join(__dirname, '..', 'log.txt')
 import mongoose from 'mongoose'
 import commands from './commands'
 import config from './config'
 import guildsController from './controllers/guilds'
 import joinVC from './utils/joinVC'
-/* eslint-enable import/first */
 
 mongoose
   .connect(process.env['MONGO_URI'] ?? 'mongodb://localhost:27017/garb')
