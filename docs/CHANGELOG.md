@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Automatically reconnect when VC connection is lost ([b0656a4]).
+
 ## [0.3.0]: 2024-01-25Z
 
 ### Changed
@@ -32,9 +36,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `/terms` command to get a link to the bot’s [terms of service].
 - `/privacy` command to get a link to the bot’s [privacy policy].
 
+[b0656a4]: https://github.com/gimjb/garb/commit/b0656a4
+
 [unreleased]: https://github.com/gimjb/garb/compare/latest...HEAD
 [0.3.0]: https://github.com/gimjb/garb/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/gimjb/garb/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/gimjb/garb/compare/v0.0.0...v0.1.0
+
 [terms of service]: https://github.com/gimjb/garb/blob/master/docs/privacy.md
 [privacy policy]: https://github.com/gimjb/garb/blob/master/docs/privacy.md
